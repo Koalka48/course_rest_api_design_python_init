@@ -18,3 +18,9 @@ def get_bark(request, bark_id: int):
     if bark_id in range (1, 4):
         return 200, {"id": bark_id, "message": f"bark {bark_id}!"}
     return 404, {"error": "Bark not found"}
+
+@router.delete("/{bark_id}/", response={204: None, 404: dict})
+def delete_bark(request, bark_id: int):
+    if bark_id in range (1, 4):
+        return 204, None
+    return 404, {"error": "Bark not found"}
