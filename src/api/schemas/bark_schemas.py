@@ -6,4 +6,5 @@ class BarkSchemaOut(Schema):
     message: str
 
 class ErrorSchemaOut(Schema):
+    """Schema for error responses"""
     error: str
