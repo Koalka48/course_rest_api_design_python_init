@@ -23,3 +23,15 @@ class DogUserModel(AbstractUser, BaseModel):
 
     def __str__(self):
         return self.username
+
+class BarkModel(BaseModel):
+    message = models.CharField(max_length=200)
+    created_at = models.DateTimeField(auto_now_add=True)
+    user = models.ForeignKey(DogUserModel, on_delete=models.CASCADE, related_name='barks')
+    
+    class Meta:
+        verbose_name = "Bark"
+        verbose_name_plural = "Barks"
+
+def __str__(self):
+        return f"{self.user.username} - {self.message[:20]}..."
