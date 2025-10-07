@@ -8,26 +8,23 @@ from uuid import UUID
 router = Router()
 
 
-@router.get("/{bark_id}/", response={200: BarkSchemaOut, 404: ErrorSchemaOut})
-def barks_list(request, bark_id: UUID):
+@router.get("/", response = list[BarkSchemaOut])
+def barks_list(request):
     """
     Bark list endpoint that returns a list of barks.
     """
-    try:
-        bark = BarkModel.objects.get(id=bark_id)
-        return bark
-    except BarkModel.DoesNotExist:
-        return 404, {"error": "Bark not found"}
-
+    return BarkModel.objects.all()
 
 @router.get("/{bark_id}/", response={200: BarkSchemaOut, 404: ErrorSchemaOut})
-def get_bark(request, bark_id: int):
+def get_bark(request, bark_id: UUID):
     """
     Bark detail endpoint that returns a single bark.
     """
-    if bark_id in range (1, 4):
-        return 200, {"id": bark_id, "message": f"bark {bark_id}!", "breed": "Poodle"}
-    return 404, {"error": "Bark not found"}
+    try:
+        bark = BarkModel.objects.get(id=bark_id)
+        return 200, bark
+    except BarkModel.DoesNotExist:
+        return 404, {"error": "Bark not found"}
 
 @router.delete("/{bark_id}/", response={204: None, 404: ErrorSchemaOut})
 def delete_bark(request, bark_id: int):
