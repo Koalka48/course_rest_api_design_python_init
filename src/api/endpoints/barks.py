@@ -9,7 +9,7 @@ router = Router()
 
 
 @router.get("/{bark_id}/", response={200: BarkSchemaOut, 404: ErrorSchemaOut})
-def barks_list(request, bark_id: int):
+def barks_list(request, bark_id: UUID):
     """
     Bark list endpoint that returns a list of barks.
     """
