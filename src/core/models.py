@@ -33,5 +33,5 @@ class BarkModel(BaseModel):
         verbose_name = "Bark"
         verbose_name_plural = "Barks"
 
-def __str__(self):
+    def __str__(self):
         return f"{self.user.username} - {self.message[:20]}..."
