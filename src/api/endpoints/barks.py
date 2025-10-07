@@ -3,16 +3,22 @@ from api.schemas.bark_schemas import BarkSchemaOut
 from api.schemas.bark_schemas import ErrorSchemaOut
 from api.schemas.bark_schemas import BarkSchemaIn
 from core.models import BarkModel
+from uuid import UUID
 
 router = Router()
 
 
-@router.get("/", response = list[BarkSchemaOut])
-def barks_list(request):
+@router.get("/{bark_id}/", response={200: BarkSchemaOut, 404: ErrorSchemaOut})
+def barks_list(request, bark_id: int):
     """
     Bark list endpoint that returns a list of barks.
     """
-    return BarkModel.objects.all()
+    try:
+        bark = BarkModel.objects.get(id=bark_id)
+        return bark
+    except BarkModel.DoesNotExist:
+        return 404, {"error": "Bark not found"}
+
 
 @router.get("/{bark_id}/", response={200: BarkSchemaOut, 404: ErrorSchemaOut})
 def get_bark(request, bark_id: int):
